@@ -1,4 +1,4 @@
-SERVER.PY ->
+# SERVER.PY ->
 
 from socket import *
 # record with IP address and domain name
