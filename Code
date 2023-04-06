@@ -1,0 +1,33 @@
+SERVER.PY ->
+
+from socket import *
+# record with IP address and domain name
+ip_address = {
+    "wp.me" : "198.35.26.96",
+    "redd.it" : "151.101.1.140",
+    "google.com" : "172.217.12.238",
+    "instagr.am" : "3.217.77.29",
+    "t.co" : "199.96.56.40"
+}
+domain_name = {
+    "wp.me" : "www.wikipedia.org",
+    "redd.it" : "www.reddit.com",
+    "google.com" : "www.google.com",
+    "instagr.am" : "www.instagram.com",
+    "t.co" : "www.twitter.com",
+}
+serverport = 14750
+# create the UDP server socket and bind to socket
+socketServer = socket(AF_INET, SOCK_DGRAM)
+socketServer.bind(('', serverport))
+print("Server is listening")
+
+while True:
+    # receives query message from client and give response from records stored
+    message, clientaddress = socketServer.recvfrom(2048)
+    data = message.decode()
+    if data in domain_name and ip_address:
+        data="IP Address: "+ ip_address[data] +", Domain name: "+ domain_name[data]
+    else:
+        data = "No data found"
+    socketServer.sendto(data.encode(), clientaddress)
